@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <form id="chatForm">
+        <input type="text" name="user" id="user" placeholder="Name">
+        <input type="text" name="chat" id="chat" placeholder="Message">
+        <button type="submit">Send</button>
+    </form>
+
+    <div id="chatBox"><%- messages %></div>
+
+    <script>
+        const socket = io();
+
+        document.getElementById('chatForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('user').value;
+            const chat = document.getElementById('chat').value;
+            socket.emit('chat message', { user, chat });
+            document.getElementById('chat').value = ''; // clear message field
+        });
+
+        socket.on('update messages', function(data) {
+            document.getElementById('chatBox').innerHTML = data;
+        });
+    </script>
+</body>
+</html>
