@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 let messages = '';
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
@@ -25,7 +26,7 @@ io.on('connection', socket => {
         console.log('A user disconnected');
     });
 });
-
-http.listen(3000, () => {
-    console.log('Listening on *:3000');
+const port = 8080
+http.listen(port, () => {
+    console.log(`Listening on localhost:${port}`);
 });
